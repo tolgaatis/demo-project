@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.management.relation.RelationNotFoundException;
@@ -67,33 +69,36 @@ public class UserController {
    * @return the response entity
    * @throws ResourceNotFoundException the resource not found exception
    */
- /* @PutMapping("/users/{iduser}")
+  @PutMapping("/update/{iduser}")
   public ResponseEntity<user> updateUser(
-      @PathVariable(value = "iduser") Long iduser, @Valid @RequestBody user userDetails)
+		  @PathVariable(value = "iduser") Long iduser, @Valid @RequestBody user userDetails)
       throws RelationNotFoundException {
-	  @Valid Optional<user> user =
+	user user =
         userRepository
-            .findById(iduser);
+            .findById(iduser)
+	        .orElseThrow(() -> new RelationNotFoundException("User not found on :: " + iduser));
+	  user.setUsername(userDetails.getUsername());
+
     final user updatedUser = userRepository.save(user);
     return ResponseEntity.ok(updatedUser);
   }
-  /**
+  /*
    * Delete user map.
    *
    * @param userId the user id
    * @return the map
    * @throws Exception the exception
-   
-  @DeleteMapping("/user/{id}")
-  public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws Exception {
-    User user =
+   */
+  @DeleteMapping("/delete/{iduser}")
+  public Map<String, Boolean> deleteUser(@PathVariable(value = "iduser") Long iduser) throws Exception {
+    user user =
         userRepository
-            .findById(userId)
-            .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
+            .findById(iduser)
+            .orElseThrow(() -> new RelationNotFoundException("User not found on :: " + iduser));
     userRepository.delete(user);
     Map<String, Boolean> response = new HashMap<>();
     response.put("deleted", Boolean.TRUE);
     return response;
-  }*/
+  }
 }
   
