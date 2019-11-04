@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class AppController {
     private UserService service;
     
     @RequestMapping("/")
-    public String viewHomePage(Model model) {
+    public String viewHomePage(Model model) {             
     	List<user> ListUser =service.listAll();
     	model.addAttribute("ListUser",ListUser);
     	
@@ -27,7 +26,7 @@ public class AppController {
     }
     
     @RequestMapping("/new")
-    public String showNewUserPage(Model model) {
+    public String showNewUserPage(Model model) {  
         user user = new user();
         model.addAttribute("user", user);
          
@@ -35,13 +34,13 @@ public class AppController {
     }
     
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveUser(@ModelAttribute("user") user user) {
+    public String saveUser(@ModelAttribute("user") user user) {             
         service.save(user);
          
         return "redirect:/";
     }
     @RequestMapping("/edit/{iduser}")
-    public ModelAndView showEditUserPage(@PathVariable(name="iduser") int iduser) {
+    public ModelAndView showEditUserPage(@PathVariable(name="iduser") int iduser) {        
         ModelAndView mav = new ModelAndView("edit_user");
         user user = service.get(iduser);
         mav.addObject("user", user);
@@ -50,10 +49,12 @@ public class AppController {
     }
     
     @RequestMapping("/delete/{iduser}")
-    public String deleteUser(@PathVariable(name="iduser") int iduser) {
+    public String deleteUser(@PathVariable(name="iduser") int iduser) {         
         service.delete(iduser);
         return "redirect:/";       
     }
+    
+    
     // handler methods...
 }
 
